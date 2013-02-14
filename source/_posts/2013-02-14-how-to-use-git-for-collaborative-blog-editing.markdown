@@ -39,102 +39,16 @@ Say you're working in a group writing an employee handbook. Now one of the issue
 
 But if you use Git, this becomes much easier. You are able to split out different versions (called branches in Git) for different people to work completely independently. Changes can be merged together with ease. If a specific department wants to take their own version of the document and use it (called a fork), then they are able to do that. Everyone is able to get credit for their contributions and there is a great amount of transparency. You can also see who is at fault for writing the 'No Coffee' policy. 
 
-### Getting Started
+### Collaborating on Writing and Documentation via Github
 
-The first, and probably most painful part, is getting Git installed properly and configured with Github. This is going to vary slightly between Windows, Linux and OS X. 
+Git via the command line can be daunting. Thankfully, there are several tools that can make this significantly easier, including [Github](https://github.com); a web-based hosting service for software development projects that use the Git revision control system. 
 
-Install the newest version of Git from the main Git site. If you already have Homebrew installed on OS X, then you can try `brew install git` in the terminal. 
+To start, sign up for a free account on Github. Then, go to a user's repo that you'd like to help edit, such as the [repo for my blog](https://github.comt/tibbon/octocode). Blog post files are kept in the `source/_posts` directory. Click on a blog post such [as this one you're reading](https://github.com/tibbon/tibbon.github.com/blob/master/source/_posts/2013-02-14-how-to-use-git-for-collaborative-blog-editing.markdown). If you hit the 'Edit' button, you will see an [editing window with the contents](https://github.com/tibbon/tibbon.github.com/edit/master/source/_posts/2013-02-14-how-to-use-git-for-collaborative-blog-editing.markdown) of the blog post in Markdown. 
 
-This brings to one thing that we'll be using a lot- the terminal or command prompt. Perhaps you've never used the terminal, or perhaps its been a while. First you've gotta open it:
+[Markdown](http://daringfireball.net/projects/markdown/) is pretty simple, especially just to edit.
 
-* In Windows, go to the Start menu and click on Run. A dialog box will pop up where you will type 'cmd.exe' and hit enter/click ok. 
-* In OS X, click on the Spotlight icon in the upper right hand corner and type 'terminal' and then hit enter when the Terminal application is highlighted. This is also accessible in Applications/Utilities/Terminal. 
-* In Linux, you might start off at a terminal prompt (sometimes called bash prompt). If some windowing system runs automatically, there should be something called 'Terminal' or similar in a pretty obvious menu. 
+When you're editing hit 'Commit Changes' and initiate a Pull Request. I can now merge it into my blog and update the changes. This should initiate a Pull Request, which will let the maintainer of the repo (and blog) that changes have been made. 
 
-In all of these, once you're at the command prompt you can type things, and then hit enter/return on your keyboard to run them. You can also copy/paste things into this window. If something is stuck and not moving, you can always hit `CTRL-C` on your keyboard to stop whatever is running. You can also make this window and the text bigger, but the detail of that is operating-system specific. 
+### Other uses of Github for writers
 
-Once you have Git installed, you can run it from the command line by just typing `git`. Easy enough eh? Unfortunately, running that alone doesn't do incredibly much and we need to configure a few things. 
-
-Using your web browser, create an account on Github. This is free and should take about a minute at most. Make sure to use a decent password that is unique. 
-
-Now, continue to follow the excellent instructions from [Set Up Git](https://help.github.com/articles/set-up-git) article on Github to setup Git's security keys, your username, email, etc. You'll be putting these commands into the terminal that we learned to open above. 
-
-Now we're ready to start using Git!
-
-### Using Git for editing an Octopress Blog
-
-First, you need to create a fork of my blog unless you're listed as a contributor on my page (Rae, we'll add you as one, but follow the below anyway). In your web browser, go to [my blog's Github repo](https://github.com/tibbon/octosource) and the the 'Fork' button in the upper right hand area of the page. It makes a copy of my blog in your Github account. Near the middle of the page, there is now a selector for HTTP, SSH and Git Read-Only. Select 'SSH' and copy the URL listed there, which should look like `git@github.com:YOU_USER_NAME/octosource.git`.
-
-Now in your terminal, we're going to type in the code below. What we're doing here is moving to your home directory, creating a new directory called 'code', changing into this directory, cloning your new Git repo (which is a fork of mine), changing into the new directory created, and then finally adding my repo as a 'remote' which we'll use later. 
-
-{% codeblock [Cloning and Adding a Remote] [lang:bash] %}
-cd
-mkdir code
-cd code
-git clone git@github.com:YOUR_USER_NAME/octosource.git
-cd octosource
-git remote add upstream git@github.com:tibbon/octosource.git
-{% endcodeblock %}
-
-If everything went well, then you should be in a directory with a handful of files. To see the names of them type `ls -al` in Linux/OS X and `dir` in Windows. 
-
-What we need to do next is open up this directory in whatever text editor suits you. On OS X, I use TextMate which isn't free but is awesome. There's a free 30-day trial though. On Windows, you might try something like [Komodo](http://www.activestate.com/komodo-edit) or [Notepad++](http://notepad-plus-plus.org/). Linux has countless options as well. Search on Google for 'open source code editor'. A good one will have code highlighting at least for Markdown. You do not want to use something like Microsoft Word to edit these files. Notepad could work in a pinch, but lacks text highlighting and is generally pretty limited feature-wise.
-
-Blog posts are stored in Octopress in the source/_posts directory. They use a format called Markdown which helps format the text. Take a few minutes a read over the [Markdown documentation](http://daringfireball.net/projects/markdown/). Its cleaner and easier than reading HTML. For the most part if you're just editing it should be relatively self-explainitory.
-
-So, let's say you've opened this blog post, which is stored as `source/_posts/2013-02-14-how-to-use-git-for-collaborative-blog-editing.markdown` and made some changes. Let's see if Git knows that you changed the files. From the terminal try the following:
-
-{% codeblock [Checking the repo status] [lang:bash] %}
-git status
-{% endcodeblock %}
-
-Git knows you've changed the blog post! Every time you change a tracked file, Git knows about it. 
-
-Now, let's push code back to Github, and do a 'Pull Request', which will let me know that changes have been made. We're going to create a 'commit', but first we have to tell Git which files to add to the commit. 
-
-{% codeblock [Standard Git Commit Cycle] [lang:bash] %}
-git add .
-git commit -m "A commit message goes here. This describes the changes that are made. You might say something like you made the second paragraph more clear."
-git push origin master
-{% endcodeblock %}
-
-Now, go back to your forked Github repo at https://github.com/YOUR-USERNAME/octosource and click 'Pull Request'. Write whatever appropriate for a commit message, and click Ok. You've now made a Pull Request that I can merge in!
-
-But what happens when I start a new blog post for you to edit? You need to 'pull' instead of pushing now. First, make sure all changes you have made are commited by running the add, commit and push lines above. Then run the following:
-
-{% codeblock [Adding an upstream remote] [lang:bash] %}
-git pull remote upstream
-{% endcodeblock %}
-
-This will get changes from my repo, and pull them locally to your machine. You'll likely want to do a `git push origin master` to put these immediately into your repo before you start to edit. Then, when you're done editing just do the add, commit, push cycle again, and do a Pull Request from Github. 
-
-### Alternative Method 1
-
-Instead of doing all of this, there are two alternatives that are worth mentioning. If you are a contributor on my blog, then you can actually push directly to my repo! Instead of creating your own fork and adding me as a remote, you can do the following instead:
-
-{% codeblock [Deploying directly to Master branch] [lang:bash] %}
-git clone git@github.com:tibbon/octosource.git
-cd octosource
-(make a change)
-git add .
-git commit -m "I made a change!"
-{% endcodeblock %}
-
-To get new changes after a while, you'd simple `git pull origin master`. Now realistically, you should make what are called 'branches' instead of a fork now, so you can save your own along the way without pushing to 'master'. You should think of the master branch as the canonical/final product. Git branching is a little more complicated and Github has a [wonderful tutorial](http://learn.github.com/p/branching.html) on it. But below is the gist of what you'll do. 
-
-{% codeblock [Branching and Merging] [lang:bash] %}
-git checkout -b grammar-updates  #This creates a new branch called grammar-updates and checks it out for you, so you can now start making changes
-(make some changes to files)
-git add .
-git commit -m "I made lots of changes here"   #You will do the cycle of git add and git commit a lot here, making small changes along the way. Think of them as save points in a game.
-git push origin grammar-updates # This will push the grammar-updates branch to Github
-git checkout master             # This changes you back to master
-git merge grammer-updates       # This merges your changes into master
-git push origin master          # This pushes your changes to master to Github.
-{% endcodeblock %}
-
-### Alternative Method 2
-
-The second alternative is to skip all the commandline stuff, and edit directly from a fork on Github. This is good for editing text, but significantly less good for editing real code. Knowing your way around Git is a great job skill and really helps set you apart from the pack. This is clearly the easier method- but I really encourage you to learn the Git workflow manually at some point too!
-
-To edit directly from Github, [go to my repo](https://github.com/tibbon/octosource), browse to `source/_posts/blogpost.markdown` and then click the 'Edit' button. This will create a fork for you, and you can now edit the file in the browser-editor on Github. You can even make it full-screen for editing! When you're done hit 'Commit Changes' and initiate a Pull Request. I can now merge it into my blog and update the changes. 
+Git and Github can be amazing ways to collaborate on documents. One thing you'll find when browsing Github, and trying to get various programs to work, is that programmers are often terrible documenters. We make a lot of assumptions. But if you can figure out how to make something work, and you edit the documentation- then you can help make it easier for the next person to use. 
