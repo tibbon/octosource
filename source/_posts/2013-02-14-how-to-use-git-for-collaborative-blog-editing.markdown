@@ -6,15 +6,13 @@ comments: true
 categories: [Git]
 ---
 
-Introduction
-============
+### Introduction
 
 I've had a few blogs prior, but I wasn't happy with how unfocused they were and I never blogged consistently on a topic. As I've been programming more, I have realized how useful technical blogs have been and I would like to contribute back to the community by having my own where I can share how I have solved problems I have encountered. 
 
 However, I don't feel that I am the strongest writer out there and asked a friend, Rae Alton, to help edit this blog to give it a more consistent tone, pacing and style. Since I am blogging using [Octopress](http://octopress.org/), which is based on [Jekyll](https://github.com/mojombo/jekyll), and I am a huge fan of the [Git](http://git-scm.com/) workflow I asked that she would also use Git and [Markdown](http://daringfireball.net/projects/markdown/) in the editing process. The only catch is, she has never used Git or another version-control system so some documentation is in order. This just happens to create a great blog post demonstrating how one might use a workflow like this for blogging. So here we are. 
 
-Why Octopress & Git instead of Wordpress?
-===========
+### Why Octopress & Git instead of Wordpress?
 
 When I initially what I'm doing here, Rae asked why this is better than Wordpress. Wordpress is used by millions and does have strength in its easy of use and ubiquity. However, it is my opinion that Wordpress has several weaknesses that I find troubling: 
 
@@ -29,8 +27,7 @@ When I initially what I'm doing here, Rae asked why this is better than Wordpres
 
 This isn't to say no one should ever use Wordpress. For me, I just feel that when weighing out these things that there isn't any compelling reason for me to use it. Octopress delivers everything I could want in a blog, and Git offers a huge amount of power and control. 
 
-So back up, what is this Git thing?
-============
+### So back up, what is this Git thing?
 
 Git is distributed version control. It was written initially for better management of the Linux source code. It is Free Open Source Software. 
 
@@ -42,8 +39,7 @@ Say you're working in a group writing an employee handbook. Now one of the issue
 
 But if you use Git, this becomes much easier. You are able to split out different versions (called branches in Git) for different people to work completely independently. Changes can be merged together with ease. If a specific department wants to take their own version of the document and use it (called a fork), then they are able to do that. Everyone is able to get credit for their contributions and there is a great amount of transparency. You can also see who is at fault for writing the 'No Coffee' policy. 
 
-Getting Started
-==========
+### Getting Started
 
 The first, and probably most painful part, is getting Git installed properly and configured with Github. This is going to vary slightly between Windows, Linux and OS X. 
 
@@ -65,8 +61,7 @@ Now, continue to follow the excellent instructions from [Set Up Git](https://hel
 
 Now we're ready to start using Git!
 
-Using Git for editing an Octopress Blog
-==========
+### Using Git for editing an Octopress Blog
 
 First, you need to create a fork of my blog unless you're listed as a contributor on my page (Rae, we'll add you as one, but follow the below anyway). In your web browser, go to [my blog's Github repo](https://github.com/tibbon/octosource) and the the 'Fork' button in the upper right hand area of the page. It makes a copy of my blog in your Github account. Near the middle of the page, there is now a selector for HTTP, SSH and Git Read-Only. Select 'SSH' and copy the URL listed there, which should look like `git@github.com:YOU_USER_NAME/octosource.git`.
 
@@ -113,8 +108,7 @@ git pull remote upstream
 
 This will get changes from my repo, and pull them locally to your machine. You'll likely want to do a `git push origin master` to put these immediately into your repo before you start to edit. Then, when you're done editing just do the add, commit, push cycle again, and do a Pull Request from Github. 
 
-Alternative Method 1
-============
+### Alternative Method 1
 
 Instead of doing all of this, there are two alternatives that are worth mentioning. If you are a contributor on my blog, then you can actually push directly to my repo! Instead of creating your own fork and adding me as a remote, you can do the following instead:
 
@@ -139,8 +133,7 @@ git merge grammer-updates       # This merges your changes into master
 git push origin master          # This pushes your changes to master to Github.
 {% endcodeblock %}
 
-Alternative Method 2
-=========
+### Alternative Method 2
 
 The second alternative is to skip all the commandline stuff, and edit directly from a fork on Github. This is good for editing text, but significantly less good for editing real code. Knowing your way around Git is a great job skill and really helps set you apart from the pack. This is clearly the easier method- but I really encourage you to learn the Git workflow manually at some point too!
 
