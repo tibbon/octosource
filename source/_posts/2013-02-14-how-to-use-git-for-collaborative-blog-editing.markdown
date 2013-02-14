@@ -72,14 +72,14 @@ First, you need to create a fork of my blog unless you're listed as a contributo
 
 Now in your terminal, we're going to type in the code below. What we're doing here is moving to your home directory, creating a new directory called 'code', changing into this directory, cloning your new Git repo (which is a fork of mine), changing into the new directory created, and then finally adding my repo as a 'remote' which we'll use later. 
 
-```
+{% codeblock [Cloning and Adding a Remote] [lang:bash] %}
 cd
 mkdir code
 cd code
 git clone git@github.com:YOUR_USER_NAME/octosource.git
 cd octosource
 git remote add upstream git@github.com:tibbon/octosource.git
-```
+{% endcodeblock %}
 
 If everything went well, then you should be in a directory with a handful of files. To see the names of them type `ls -al` in Linux/OS X and `dir` in Windows. 
 
@@ -89,25 +89,27 @@ Blog posts are stored in Octopress in the source/_posts directory. They use a fo
 
 So, let's say you've opened this blog post, which is stored as `source/_posts/2013-02-14-how-to-use-git-for-collaborative-blog-editing.markdown` and made some changes. Let's see if Git knows that you changed the files. From the terminal try the following:
 
-`git status`
+{% codeblock [Checking the repo status] [lang:bash] %}
+git status
+{% endcodeblock %}
 
 Git knows you've changed the blog post! Every time you change a tracked file, Git knows about it. 
 
 Now, let's push code back to Github, and do a 'Pull Request', which will let me know that changes have been made. We're going to create a 'commit', but first we have to tell Git which files to add to the commit. 
 
-```
+{% codeblock [Standard Git Commit Cycle] [lang:bash] %}
 git add .
 git commit -m "A commit message goes here. This describes the changes that are made. You might say something like you made the second paragraph more clear."
 git push origin master
-```
+{% endcodeblock %}
 
 Now, go back to your forked Github repo at https://github.com/YOUR-USERNAME/octosource and click 'Pull Request'. Write whatever appropriate for a commit message, and click Ok. You've now made a Pull Request that I can merge in!
 
 But what happens when I start a new blog post for you to edit? You need to 'pull' instead of pushing now. First, make sure all changes you have made are commited by running the add, commit and push lines above. Then run the following:
 
-```
+{% codeblock [Adding an upstream remote] [lang:bash] %}
 git pull remote upstream
-```
+{% endcodeblock %}
 
 This will get changes from my repo, and pull them locally to your machine. You'll likely want to do a `git push origin master` to put these immediately into your repo before you start to edit. Then, when you're done editing just do the add, commit, push cycle again, and do a Pull Request from Github. 
 
@@ -116,16 +118,17 @@ Alternative Method 1
 
 Instead of doing all of this, there are two alternatives that are worth mentioning. If you are a contributor on my blog, then you can actually push directly to my repo! Instead of creating your own fork and adding me as a remote, you can do the following instead:
 
-```git clone git@github.com:tibbon/octosource.git
+{% codeblock [Deploying directly to Master branch] [lang:bash] %}
+git clone git@github.com:tibbon/octosource.git
 cd octosource
 (make a change)
 git add .
 git commit -m "I made a change!"
-git push origin master```
+{% endcodeblock %}
 
 To get new changes after a while, you'd simple `git pull origin master`. Now realistically, you should make what are called 'branches' instead of a fork now, so you can save your own along the way without pushing to 'master'. You should think of the master branch as the canonical/final product. Git branching is a little more complicated and Github has a [wonderful tutorial](http://learn.github.com/p/branching.html) on it. But below is the gist of what you'll do. 
 
-```
+{% codeblock [Branching and Merging] [lang:bash] %}
 git checkout -b grammar-updates  #This creates a new branch called grammar-updates and checks it out for you, so you can now start making changes
 (make some changes to files)
 git add .
@@ -134,7 +137,7 @@ git push origin grammar-updates # This will push the grammar-updates branch to G
 git checkout master             # This changes you back to master
 git merge grammer-updates       # This merges your changes into master
 git push origin master          # This pushes your changes to master to Github.
-``` 
+{% endcodeblock %}
 
 Alternative Method 2
 =========
