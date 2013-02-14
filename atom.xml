@@ -4,7 +4,7 @@
   <title><![CDATA[David Fisher's Tech Blog]]></title>
   <link href="http://tibbon.github.com/atom.xml" rel="self"/>
   <link href="http://tibbon.github.com/"/>
-  <updated>2013-02-14T13:14:59-05:00</updated>
+  <updated>2013-02-14T15:23:23-05:00</updated>
   <id>http://tibbon.github.com/</id>
   <author>
     <name><![CDATA[David Fisher]]></name>
@@ -12,5 +12,181 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How to use Git for collaborative blog editing]]></title>
+    <link href="http://tibbon.github.com/blog/2013/02/14/how-to-use-git-for-collaborative-blog-editing/"/>
+    <updated>2013-02-14T13:25:00-05:00</updated>
+    <id>http://tibbon.github.com/blog/2013/02/14/how-to-use-git-for-collaborative-blog-editing</id>
+    <content type="html"><![CDATA[<h1>Introduction</h1>
+
+<p>I&#8217;ve had a few blogs prior, but I wasn&#8217;t happy with how unfocused they were and I never blogged consistently on a topic. As I&#8217;ve been programming more, I have realized how useful technical blogs have been and I would like to contribute back to the community by having my own where I can share how I have solved problems I have encountered.</p>
+
+<p>However, I don&#8217;t feel that I am the strongest writer out there and asked a friend, Rae Alton, to help edit this blog to give it a more consistent tone, pacing and style. Since I am blogging using <a href="http://octopress.org/">Octopress</a>, which is based on <a href="https://github.com/mojombo/jekyll">Jekyll</a>, and I am a huge fan of the <a href="http://git-scm.com/">Git</a> workflow I asked that she would also use Git and <a href="http://daringfireball.net/projects/markdown/">Markdown</a> in the editing process. The only catch is, she has never used Git or another version-control system so some documentation is in order. This just happens to create a great blog post demonstrating how one might use a workflow like this for blogging. So here we are.</p>
+
+<h1>Why Octopress &amp; Git instead of Wordpress?</h1>
+
+<p>When I initially what I&#8217;m doing here, Rae asked why this is better than Wordpress. Wordpress is used by millions and does have strength in its easy of use and ubiquity. However, it is my opinion that Wordpress has several weaknesses that I find troubling:</p>
+
+<ul>
+<li>It is written in PHP. I&#8217;m not going to go off on the traditional rant about the weaknesses of PHP, but rather just say that I&#8217;m significantly more comfortable in Ruby</li>
+<li>It lacks anything resembling an MVC pattern- or any pattern Every time I touch Wordpress I&#8217;m find it impossible to figure out where/why database calls are being made, how the data is structured, and debugging becomes a mess. In constrast, with something more structured like Jekyll or Rails I can easily figure out the lay of the land and debug things.</li>
+<li>Theming and Plugins in Wordpress are a mess. The code for each of these is of highly inconsitent quality, there are rarely code-based tests, and there&#8217;s no good dependency manager like <a href="http://gembundler.com/">Bundler</a> to help keep things in order.</li>
+<li>The versioning that Wordpress offers is nice, but very limited compared to Git, which allows splitting, merging and tracking of changes in an infinite number of ways. This is potentially overkill for a blog, but when Rae makes changes, I can easily see line for line what changes have been made. Wordpress also largely requires that I&#8217;m online all the time, and use a GUI to edit things.</li>
+<li>Wordpress installations often get slow and are heavily database dependant. It isn&#8217;t uncommon to see a Wordpress page with 100&#8217;s of SQL queries per page load. Of course this can be optimized, but this becomes problematic when you attempt to upgrade. When using <a href="http://disqus.com/">Disqus</a> for comments, a blog really doesn&#8217;t need to be dynamic in my opinion. Octopress generates a static site, which Github will host for me for free, and I can deploy changes with a single command line.</li>
+<li>The security model in Wordpress is incredibly poor by default and leaves a lot of room for misconfiguration easily. Setting up file permissions, storage of database passwords in plain text, editing pages over HTTP, encouraging users to enable FTP, etc&#8230;</li>
+<li>Wordpress (by default) doesn&#8217;t push for a Git-based workflow to deploy, version and backup the code. I can&#8217;t count how many Wordpress installations I&#8217;ve seen that just have monthly tar files, or worse renamed folders, to try to version things.</li>
+<li>I also really don&#8217;t like MySQL compared to Postgres for a relational database, although as I highlighted above, I don&#8217;t feel that a blog needs a database.</li>
+</ul>
+
+
+<p>This isn&#8217;t to say no one should ever use Wordpress. For me, I just feel that when weighing out these things that there isn&#8217;t any compelling reason for me to use it. Octopress delivers everything I could want in a blog, and Git offers a huge amount of power and control.</p>
+
+<h1>So back up, what is this Git thing?</h1>
+
+<p>Git is distributed version control. It was written initially for better management of the Linux source code. It is Free Open Source Software.</p>
+
+<p>Github is a platform for storing, sharing and working with Git repos. A repo is a set of related files which one or more people can work on.</p>
+
+<p>But let&#8217;s back up just a bit and parse out what Git is, and why its incredibly awesome.</p>
+
+<p>Say you&#8217;re working in a group writing an employee handbook. Now one of the issues that quickly arises is how to split up writing it, and then how to put it together. Normally this involves a lot of people kicking around different versions of MS Word documents, often named something like &#8216;handbookV2.doc&#8217; and &#8216;handbookV3withfiringpolicy.doc&#8217;. You can use Word&#8217;s track-changes feature and the merge-document feature, but when it comes down to it this is still messy. Later on, it is difficult to figure out who wrote what parts. Keeping completely different versions going is also difficult, and undoing specific additions is hard too.</p>
+
+<p>But if you use Git, this becomes much easier. You are able to split out different versions (called branches in Git) for different people to work completely independently. Changes can be merged together with ease. If a specific department wants to take their own version of the document and use it (called a fork), then they are able to do that. Everyone is able to get credit for their contributions and there is a great amount of transparency. You can also see who is at fault for writing the &#8216;No Coffee&#8217; policy.</p>
+
+<h1>Getting Started</h1>
+
+<p>The first, and probably most painful part, is getting Git installed properly and configured with Github. This is going to vary slightly between Windows, Linux and OS X.</p>
+
+<p>Install the newest version of Git from the main Git site. If you already have Homebrew installed on OS X, then you can try <code>brew install git</code> in the terminal.</p>
+
+<p>This brings to one thing that we&#8217;ll be using a lot- the terminal or command prompt. Perhaps you&#8217;ve never used the terminal, or perhaps its been a while. First you&#8217;ve gotta open it:</p>
+
+<ul>
+<li>In Windows, go to the Start menu and click on Run. A dialog box will pop up where you will type &#8216;cmd.exe&#8217; and hit enter/click ok.</li>
+<li>In OS X, click on the Spotlight icon in the upper right hand corner and type &#8216;terminal&#8217; and then hit enter when the Terminal application is highlighted. This is also accessible in Applications/Utilities/Terminal.</li>
+<li>In Linux, you might start off at a terminal prompt (sometimes called bash prompt). If some windowing system runs automatically, there should be something called &#8216;Terminal&#8217; or similar in a pretty obvious menu.</li>
+</ul>
+
+
+<p>In all of these, once you&#8217;re at the command prompt you can type things, and then hit enter/return on your keyboard to run them. You can also copy/paste things into this window. If something is stuck and not moving, you can always hit <code>CTRL-C</code> on your keyboard to stop whatever is running. You can also make this window and the text bigger, but the detail of that is operating-system specific.</p>
+
+<p>Once you have Git installed, you can run it from the command line by just typing <code>git</code>. Easy enough eh? Unfortunately, running that alone doesn&#8217;t do incredibly much and we need to configure a few things.</p>
+
+<p>Using your web browser, create an account on Github. This is free and should take about a minute at most. Make sure to use a decent password that is unique.</p>
+
+<p>Now, continue to follow the excellent instructions from <a href="https://help.github.com/articles/set-up-git">Set Up Git</a> article on Github to setup Git&#8217;s security keys, your username, email, etc. You&#8217;ll be putting these commands into the terminal that we learned to open above.</p>
+
+<p>Now we&#8217;re ready to start using Git!</p>
+
+<h1>Using Git for editing an Octopress Blog</h1>
+
+<p>First, you need to create a fork of my blog unless you&#8217;re listed as a contributor on my page (Rae, we&#8217;ll add you as one, but follow the below anyway). In your web browser, go to <a href="https://github.com/tibbon/octosource">my blog&#8217;s Github repo</a> and the the &#8216;Fork&#8217; button in the upper right hand area of the page. It makes a copy of my blog in your Github account. Near the middle of the page, there is now a selector for HTTP, SSH and Git Read-Only. Select &#8216;SSH&#8217; and copy the URL listed there, which should look like <code>git@github.com:YOU_USER_NAME/octosource.git</code>.</p>
+
+<p>Now in your terminal, we&#8217;re going to type in the code below. What we&#8217;re doing here is moving to your home directory, creating a new directory called &#8216;code&#8217;, changing into this directory, cloning your new Git repo (which is a fork of mine), changing into the new directory created, and then finally adding my repo as a &#8216;remote&#8217; which we&#8217;ll use later.</p>
+
+<figure class='code'><figcaption><span>[Cloning and Adding a Remote] [] </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">cd</span>
+</span><span class='line'>mkdir code
+</span><span class='line'><span class="nb">cd </span>code
+</span><span class='line'>git clone git@github.com:YOUR_USER_NAME/octosource.git
+</span><span class='line'><span class="nb">cd </span>octosource
+</span><span class='line'>git remote add upstream git@github.com:tibbon/octosource.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If everything went well, then you should be in a directory with a handful of files. To see the names of them type <code>ls -al</code> in Linux/OS X and <code>dir</code> in Windows.</p>
+
+<p>What we need to do next is open up this directory in whatever text editor suits you. On OS X, I use TextMate which isn&#8217;t free but is awesome. There&#8217;s a free 30-day trial though. On Windows, you might try something like <a href="http://www.activestate.com/komodo-edit">Komodo</a> or <a href="http://notepad-plus-plus.org/">Notepad++</a>. Linux has countless options as well. Search on Google for &#8216;open source code editor&#8217;. A good one will have code highlighting at least for Markdown. You do not want to use something like Microsoft Word to edit these files. Notepad could work in a pinch, but lacks text highlighting and is generally pretty limited feature-wise.</p>
+
+<p>Blog posts are stored in Octopress in the source/_posts directory. They use a format called Markdown which helps format the text. Take a few minutes a read over the <a href="http://daringfireball.net/projects/markdown/">Markdown documentation</a>. Its cleaner and easier than reading HTML. For the most part if you&#8217;re just editing it should be relatively self-explainitory.</p>
+
+<p>So, let&#8217;s say you&#8217;ve opened this blog post, which is stored as <code>source/_posts/2013-02-14-how-to-use-git-for-collaborative-blog-editing.markdown</code> and made some changes. Let&#8217;s see if Git knows that you changed the files. From the terminal try the following:</p>
+
+<figure class='code'><figcaption><span>[Checking the repo status] [] </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git status
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Git knows you&#8217;ve changed the blog post! Every time you change a tracked file, Git knows about it.</p>
+
+<p>Now, let&#8217;s push code back to Github, and do a &#8216;Pull Request&#8217;, which will let me know that changes have been made. We&#8217;re going to create a &#8216;commit&#8217;, but first we have to tell Git which files to add to the commit.</p>
+
+<figure class='code'><figcaption><span>[Standard Git Commit Cycle] [] </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git add .
+</span><span class='line'>git commit -m <span class="s2">&quot;A commit message goes here. This describes the changes that are made. You might say something like you made the second paragraph more clear.&quot;</span>
+</span><span class='line'>git push origin master
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, go back to your forked Github repo at https://github.com/YOUR-USERNAME/octosource and click &#8216;Pull Request&#8217;. Write whatever appropriate for a commit message, and click Ok. You&#8217;ve now made a Pull Request that I can merge in!</p>
+
+<p>But what happens when I start a new blog post for you to edit? You need to &#8216;pull&#8217; instead of pushing now. First, make sure all changes you have made are commited by running the add, commit and push lines above. Then run the following:</p>
+
+<figure class='code'><figcaption><span>[Adding an upstream remote] [] </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git pull remote upstream
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will get changes from my repo, and pull them locally to your machine. You&#8217;ll likely want to do a <code>git push origin master</code> to put these immediately into your repo before you start to edit. Then, when you&#8217;re done editing just do the add, commit, push cycle again, and do a Pull Request from Github.</p>
+
+<h1>Alternative Method 1</h1>
+
+<p>Instead of doing all of this, there are two alternatives that are worth mentioning. If you are a contributor on my blog, then you can actually push directly to my repo! Instead of creating your own fork and adding me as a remote, you can do the following instead:</p>
+
+<figure class='code'><figcaption><span>[Deploying directly to Master branch] [] </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:tibbon/octosource.git
+</span><span class='line'><span class="nb">cd </span>octosource
+</span><span class='line'><span class="o">(</span>make a change<span class="o">)</span>
+</span><span class='line'>git add .
+</span><span class='line'>git commit -m <span class="s2">&quot;I made a change!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To get new changes after a while, you&#8217;d simple <code>git pull origin master</code>. Now realistically, you should make what are called &#8216;branches&#8217; instead of a fork now, so you can save your own along the way without pushing to &#8216;master&#8217;. You should think of the master branch as the canonical/final product. Git branching is a little more complicated and Github has a <a href="http://learn.github.com/p/branching.html">wonderful tutorial</a> on it. But below is the gist of what you&#8217;ll do.</p>
+
+<figure class='code'><figcaption><span>[Branching and Merging] [] </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git checkout -b grammar-updates  <span class="c">#This creates a new branch called grammar-updates and checks it out for you, so you can now start making changes</span>
+</span><span class='line'><span class="o">(</span>make some changes to files<span class="o">)</span>
+</span><span class='line'>git add .
+</span><span class='line'>git commit -m <span class="s2">&quot;I made lots of changes here&quot;</span>   <span class="c">#You will do the cycle of git add and git commit a lot here, making small changes along the way. Think of them as save points in a game.</span>
+</span><span class='line'>git push origin grammar-updates <span class="c"># This will push the grammar-updates branch to Github</span>
+</span><span class='line'>git checkout master             <span class="c"># This changes you back to master</span>
+</span><span class='line'>git merge grammer-updates       <span class="c"># This merges your changes into master</span>
+</span><span class='line'>git push origin master          <span class="c"># This pushes your changes to master to Github.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>Alternative Method 2</h1>
+
+<p>The second alternative is to skip all the commandline stuff, and edit directly from a fork on Github. This is good for editing text, but significantly less good for editing real code. Knowing your way around Git is a great job skill and really helps set you apart from the pack. This is clearly the easier method- but I really encourage you to learn the Git workflow manually at some point too!</p>
+
+<p>To edit directly from Github, <a href="https://github.com/tibbon/octosource">go to my repo</a>, browse to <code>source/_posts/blogpost.markdown</code> and then click the &#8216;Edit&#8217; button. This will create a fork for you, and you can now edit the file in the browser-editor on Github. You can even make it full-screen for editing! When you&#8217;re done hit &#8216;Commit Changes&#8217; and initiate a Pull Request. I can now merge it into my blog and update the changes.</p>
+]]></content>
+  </entry>
   
 </feed>
