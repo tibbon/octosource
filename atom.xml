@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[David Fisher's Tech Blog]]></title>
+  <link href="http://tibbon.github.com/atom.xml" rel="self"/>
+  <link href="http://tibbon.github.com/"/>
+  <updated>2013-02-14T13:14:59-05:00</updated>
+  <id>http://tibbon.github.com/</id>
+  <author>
+    <name><![CDATA[David Fisher]]></name>
+    <email><![CDATA[tibbon@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
