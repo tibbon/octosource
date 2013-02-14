@@ -77,4 +77,12 @@ git clone git@github.com:tibbon/octosource.git
 cd octosource
 ```
 
-If everything went well, then you should be in a directory with a handful of files. To see the names of them type `ls -al` in Linux/OS X and `dir` in Windows. 
+If everything went well, then you should be in a directory with a handful of files. You don't need to do this every time- just when getting a new repo. To see the names of them type `ls -al` in Linux/OS X and `dir` in Windows. 
+
+What we need to do next is open up this directory in whatever text editor suits you. On OS X, I use TextMate which isn't free but is awesome. There's a free 30-day trial though. On Windows, you might try something like [Komodo](http://www.activestate.com/komodo-edit) or [Notepad++](http://notepad-plus-plus.org/). Linux has countless options as well. Search on Google for 'open source code editor'. A good one will have code highlighting at least for Markdown. You do not want to use something like Microsoft Word to edit these files. Notepad could work in a pinch, but lacks text highlighting and is generally pretty limited feature-wise.
+
+Blog posts are stored in Octopress in the source/_posts directory. They use a format called Markdown which helps format the text. Take a few minutes a read over the [Markdown documentation](http://daringfireball.net/projects/markdown/). Its cleaner and easier than reading HTML. For the most part if you're just editing it should be relatively self-explainitory.
+
+So, let's say you've opened this blog post, which is stored as `source/_posts/2013-02-14-how-to-use-git-for-collaborative-blog-editing.markdown` and made some changes. Let's see if Git knows that you changed the files. From the terminal try the following:
+
+`git status `
